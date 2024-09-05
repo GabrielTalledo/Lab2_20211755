@@ -7,4 +7,543 @@
     android:layout_height="match_parent"
     tools:context=".JuegoAhorcado">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="283dp"
+            android:layout_gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:id="@+id/antena_ahorcado"
+                android:layout_width="273dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="40dp"
+                android:scaleType="fitXY"
+                android:translationX="38dp"
+                android:translationY="-15dp"
+                app:srcCompat="@drawable/antenna_sin_fondo" />
+
+            <ImageView
+                android:id="@+id/cabeza"
+                android:layout_width="69dp"
+                android:layout_height="66dp"
+                android:layout_marginTop="72dp"
+                android:scaleType="fitXY"
+                android:translationX="248dp"
+                android:translationY="-18dp"
+                app:srcCompat="@drawable/head1_" />
+
+            <ImageView
+                android:id="@+id/torso"
+                android:layout_width="14dp"
+                android:layout_height="67dp"
+                android:layout_marginTop="140dp"
+                android:scaleType="fitXY"
+                android:translationX="276dp"
+                android:translationY="-22dp"
+                app:srcCompat="@drawable/torso_" />
+
+            <ImageView
+                android:id="@+id/brazo_derecho"
+                android:layout_width="94dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="132dp"
+                android:translationX="260dp"
+                android:translationY="-28dp"
+                app:srcCompat="@drawable/brazo_dere_piernaizq" />
+
+            <ImageView
+                android:id="@+id/brazo_izquierdo"
+                android:layout_width="94dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="132dp"
+                android:translationX="211dp"
+                android:translationY="-28dp"
+                app:srcCompat="@drawable/brazo_izq_pierna_dere_" />
+
+            <ImageView
+                android:id="@+id/pierna_izquierda"
+                android:layout_width="94dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="200dp"
+                android:translationX="210dp"
+                android:translationY="-20dp"
+                app:srcCompat="@drawable/brazo_dere_piernaizq" />
+
+            <ImageView
+                android:id="@+id/pierna_derecha"
+                android:layout_width="94dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="200dp"
+                android:translationX="260dp"
+                android:translationY="-22dp"
+                app:srcCompat="@drawable/brazo_izq_pierna_dere_" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_palabra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="228dp"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/fila_1"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/letra_A"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="A"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_B"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="B"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_C"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="C"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_D"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="D"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_E"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="E"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_F"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="F"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_G"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="G"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fila_2"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/letra_H"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="H"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_I"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="I"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_J"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="J"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_K"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="K"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_L"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="L"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_M"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="M"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_N"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="N"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fila_3"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/letra_O"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="O"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_P"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="P"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_Q"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="Q"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_R"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="R"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_S"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="S"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_T"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="T"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_U"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="U"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fila_4"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <Button
+                    android:id="@+id/letra_V"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="V"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_X"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="X"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_Y"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="Y"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+                <Button
+                    android:id="@+id/letra_Z"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="1dp"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif"
+                    android:onClick="clickLetra"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+                    android:text="Z"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_mensaje_juego"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="Ganó / Terminó en 10s"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/button_nuevo_juego"
+            android:layout_width="151dp"
+            android:layout_height="59dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/verde"
+            android:text="Nuevo Juego"
+            android:textAlignment="center" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
