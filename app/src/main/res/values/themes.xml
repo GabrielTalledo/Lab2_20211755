@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LAB2_20211755" parent="Theme.Material3.DayNight">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/naranjita</item>
+    </style>
+
+    <style name="Theme.LAB2_20211755" parent="Base.Theme.LAB2_20211755" />
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/titulo_verde"
+        android:title="Verde"
+        android:orderInCategory="10"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/titulo_rojo"
+        android:title="Rojo"
+        android:orderInCategory="20"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/titulo_morado"
+        android:title="Morado"
+        android:orderInCategory="30"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/titulo_negro"
+        android:title="Original"
+        android:orderInCategory="40"
+        app:showAsAction="always"/>
+</menu>
