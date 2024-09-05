@@ -95,7 +95,21 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingHorizontal="50dp"/>
+            android:paddingHorizontal="50dp">
+
+            <TextView
+                android:id="@+id/textitoEjemplo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/linea_letra"
+                android:ellipsize="end"
+                android:paddingHorizontal="10dp"
+                android:text="G"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

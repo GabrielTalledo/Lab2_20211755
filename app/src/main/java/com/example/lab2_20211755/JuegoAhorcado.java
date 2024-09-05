@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -74,12 +76,16 @@ public class JuegoAhorcado extends AppCompatActivity {
             empezarJuego();
         });
 
+        // Bienvenida :D
+        Toast.makeText(this,"Bienvenido a TeleGame, " + nombre+"!", Toast.LENGTH_SHORT).show();
+
         empezarJuego();
 
     }
 
     // Inicio del Juego del Ahorcado:
     public void empezarJuego(){
+
         // Número de juego
         numJuego++;
 
@@ -148,12 +154,11 @@ public class JuegoAhorcado extends AppCompatActivity {
         numCaracteresEncontrados = 0;
         juegoTerminado = false;
 
-
         Log.d("TAG", estadisticas);
 
     }
 
-    // Lógica del juego de Ahorcado:
+    // Lógica del juego del ahorcado (cuando se pulsa una letra):
 
     public void clickLetra(View view) {
         if(!juegoTerminado){
@@ -176,7 +181,7 @@ public class JuegoAhorcado extends AppCompatActivity {
                 if(numIntento == partesStickman.length){
                     TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
                     mensajeJuego.setText("Perdiste! La palabra era: " + palabraElegida);
-                    // Registramos a estadísticas:
+                    // Registramos las estadísticas:
                     tiempoJuego = (int) Math.floor((double) (System.currentTimeMillis() - tiempoInicio) /1000);
                     estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Perdió en " + tiempoJuego + "s";
                     juegoTerminado = true;
@@ -190,7 +195,7 @@ public class JuegoAhorcado extends AppCompatActivity {
                     tiempoJuego = (int) Math.floor((double) (System.currentTimeMillis() - tiempoInicio) /1000);
                     TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
                     mensajeJuego.setText("Ganaste/terminaste en "+tiempoJuego+"s.");
-                    // Registramos a estadísticas:
+                    // Registramos las estadísticas:
                     estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Terminó en " + tiempoJuego + "s";
                     juegoTerminado = true;
                 }else{

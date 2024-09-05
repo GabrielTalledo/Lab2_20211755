@@ -47,14 +47,13 @@ public class MenuPrincipal extends AppCompatActivity {
         // Lógica del botón de Jugar:
         findViewById(R.id.button_jugar).setOnClickListener(v -> {
             abrirJuego();
-            Toast.makeText(this, "Bienvenido " + ((EditText)findViewById(R.id.input_nombre)).getText().toString()+"!", Toast.LENGTH_SHORT).show();
         });
 
     }
 
     // Abrir la actividad del juego:
     public void abrirJuego() {
-        Intent intent = new Intent(this, JuegoAhorcado.class);
+        Intent intent = new Intent(MenuPrincipal.this, JuegoAhorcado.class);
         intent.putExtra("Nombre",((TextView)findViewById(R.id.input_nombre)).getText().toString());
         startActivity(intent);
     }
