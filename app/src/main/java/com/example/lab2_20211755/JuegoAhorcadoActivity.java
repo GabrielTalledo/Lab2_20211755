@@ -10,30 +10,21 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import com.example.lab2_20211755.R;
 
-import org.w3c.dom.Text;
-
-public class JuegoAhorcado extends AppCompatActivity {
+public class JuegoAhorcadoActivity extends AppCompatActivity {
 
     // Variables a utilizar:
 
@@ -48,9 +39,12 @@ public class JuegoAhorcado extends AppCompatActivity {
     public int numCaracteresEncontrados;
     public int tiempoJuego;
     public boolean juegoTerminado = false;
+    public ArrayList<String> letrasAcertadas = new ArrayList<>();
+    public ArrayList<String> letrasPresionadas = new ArrayList<>();
 
     // Stickman:
     ImageView[] partesStickman = new ImageView[6];
+
 
     // Funciones:
 
@@ -58,14 +52,20 @@ public class JuegoAhorcado extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
+
         // Activar botón para atrás:
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         // Cambiar el titulo del AppBar:
         getSupportActionBar().setTitle("TeleGame");
 
-        // Control del Intent de la pantalla principal:
-        Intent intentPrincipal = getIntent();
-        nombre = intentPrincipal.getStringExtra("Nombre");
+        // Primer seteo del Stickman:
+        partesStickman[0] = findViewById(R.id.cabeza);
+        partesStickman[1] = findViewById(R.id.torso);
+        partesStickman[2] = findViewById(R.id.brazo_derecho);
+        partesStickman[3]= findViewById(R.id.brazo_izquierdo);
+        partesStickman[4] = findViewById(R.id.pierna_izquierda);
+        partesStickman[5] = findViewById(R.id.pierna_derecha);
 
         // Activar botón de nuevo juego:
         findViewById(R.id.button_nuevo_juego).setOnClickListener(l -> {
@@ -76,12 +76,108 @@ public class JuegoAhorcado extends AppCompatActivity {
             empezarJuego();
         });
 
-        // Bienvenida :D
-        Toast.makeText(this,"Bienvenido a TeleGame, " + nombre+"!", Toast.LENGTH_SHORT).show();
-
-        empezarJuego();
+        // Control del Intent de la pantalla principal:
+        Intent intentPrincipal = getIntent();
+        nombre = intentPrincipal.getStringExtra("Nombre");
+        if(nombre != null){
+            empezarJuego();
+        }
 
     }
+
+    // Obtener la data guardada:
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restaurar estado guardado:
+        nombre = savedInstanceState.getString("nombre");
+        estadisticas = savedInstanceState.getString("estadisticas");
+        palabraElegida = savedInstanceState.getString("palabraElegida");
+        numJuego = savedInstanceState.getInt("numJuego");
+        numIntento = savedInstanceState.getInt("numIntento");
+        numCaracteres = savedInstanceState.getInt("numCaracteres");
+        numCaracteresEncontrados = savedInstanceState.getInt("numCaracteresEncontrados");
+        tiempoInicio = savedInstanceState.getLong("tiempoInicio");
+        juegoTerminado = savedInstanceState.getBoolean("juegoTerminado");
+        letrasAcertadas = savedInstanceState.getStringArrayList("letrasAcertadas");
+        letrasPresionadas = savedInstanceState.getStringArrayList("letrasPresionadas");
+        ((TextView)findViewById(R.id.text_mensaje_juego)).setText(savedInstanceState.getString("mensajeJuego"));
+
+        restaurarLetras(letrasAcertadas,palabraElegida);
+        desactivarBotones(letrasPresionadas);
+        restaurarStickman(numIntento,partesStickman);
+    }
+
+
+    // Manejar el estado guardado:
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("nombre",nombre);
+        outState.putString("estadisticas",estadisticas);
+        outState.putString("palabraElegida",palabraElegida);
+        Log.d("TAG", "AIUDA WEEE");
+        outState.putInt("numJuego",numJuego);
+        outState.putInt("numIntento",numIntento);
+        outState.putInt("numCaracteres",numCaracteres);
+        outState.putInt("numCaracteresEncontrados",numCaracteresEncontrados);
+        outState.putLong("tiempoInicio",tiempoInicio);
+        outState.putBoolean("juegoTerminado",juegoTerminado);
+        outState.putStringArrayList("letrasAcertadas",letrasAcertadas);
+        outState.putStringArrayList("letrasPresionadas",letrasPresionadas);
+        outState.putString("mensajeJuego",((TextView)findViewById(R.id.text_mensaje_juego)).getText().toString());
+    }
+
+    // Función auxiliar para desactivar botones:
+    public void desactivarBotones(ArrayList<String> letrasPresionadas){
+        for(String letra: letrasPresionadas){
+            int resourceId = getResources().getIdentifier("letra_" + letra, "id", getPackageName());
+            ((Button)findViewById(resourceId)).setEnabled(false);
+        }
+    }
+
+    // Función auxiliad para restaurar las letras del juego:
+    public void restaurarLetras(ArrayList<String> letrasAcertadas,String palabraElegida){
+        for(int i=0;i<palabraElegida.length();i++){
+            String letraStr = String.valueOf(palabraElegida.charAt(i));
+            LinearLayout layoutPalabra = findViewById(R.id.layout_palabra);
+            layoutPalabra.removeAllViews();
+            TextView letra = new TextView(this); // Creamos el TextView
+            // Le asignamos un ID
+            letra.setId(View.generateViewId());
+            // Parámetros del layout:
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.weight = 0;
+            letra.setLayoutParams(params);
+            // Modificamos sus atributos:
+            letra.setCompoundDrawablePadding(10);
+            letra.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.linea_letra);
+            letra.setPadding(10, 0, 10, 0); // Padding horizontal
+            letra.setText(letraStr);;
+            letra.setGravity(Gravity.CENTER);
+            letra.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+            letra.setTypeface(null, Typeface.BOLD);
+            if(letrasAcertadas.contains(letraStr)){
+                letra.setTextColor(Color.BLACK);
+            }else{
+                letra.setTextColor(Color.TRANSPARENT);
+            }
+            // Finalmente, añadimos el Textview al layout:
+            layoutPalabra.addView(letra);
+        }
+    }
+
+    // Función auxiliar para restaurar al Stickman uwu:
+    public void restaurarStickman(int numIntento, ImageView[] partesStickman){
+        for (int i=0;i<partesStickman.length;i++) {
+            if(i<=numIntento){
+                partesStickman[i].setVisibility(View.VISIBLE);
+            }else {
+                partesStickman[i].setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
 
     // Inicio del Juego del Ahorcado:
     public void empezarJuego(){
@@ -125,17 +221,13 @@ public class JuegoAhorcado extends AppCompatActivity {
 
 
         // Seteo del stickman:
-
-        partesStickman[0] = findViewById(R.id.cabeza);
-        partesStickman[1] = findViewById(R.id.torso);
-        partesStickman[2] = findViewById(R.id.brazo_derecho);
-        partesStickman[3]= findViewById(R.id.brazo_izquierdo);
-        partesStickman[4] = findViewById(R.id.pierna_izquierda);
-        partesStickman[5] = findViewById(R.id.pierna_derecha);
-
         for (ImageView imageView : partesStickman) {
             imageView.setVisibility(View.INVISIBLE);
         }
+
+        //Seteo de letras presionadas y acertadas:
+        letrasAcertadas.clear();
+        letrasPresionadas.clear();
 
         // Seteo de botones:
         for (int i = 0; i < 26; i++) {
@@ -165,6 +257,9 @@ public class JuegoAhorcado extends AppCompatActivity {
             Button btnLetra = (Button) view;
             btnLetra.setEnabled(false);
             String letra = String.valueOf(btnLetra.getText());
+            // Se guarda la letra presionada:
+            letrasPresionadas.add(letra);
+            // Se verifica si la letra está en la palabra:
             boolean letraEncontrada = false;
             LinearLayout layoutPalabra = findViewById(R.id.layout_palabra);
             for(int i = 0;i<numCaracteres;i++){
@@ -172,6 +267,7 @@ public class JuegoAhorcado extends AppCompatActivity {
                     ((TextView)layoutPalabra.getChildAt(i)).setTextColor(Color.BLACK);
                     letraEncontrada = true;
                     numCaracteresEncontrados++;
+                    letrasAcertadas.add(letra);
                 }
             }
             if(!letraEncontrada){
@@ -227,7 +323,10 @@ public class JuegoAhorcado extends AppCompatActivity {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     if(menuItem.getItemId() == R.id.go_estadisticas) {
-
+                        Intent intent = new Intent(JuegoAhorcadoActivity.this, EstadisticasActivity.class);
+                        intent.putExtra("nombre",nombre);
+                        intent.putExtra("estadisticas",estadisticas);
+                        startActivity(intent);
                         return true;
                     }
                     return false;

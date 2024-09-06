@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-public class MenuPrincipal extends AppCompatActivity {
+public class MenuPrincipalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
         // Lógica del botón de Jugar:
         findViewById(R.id.button_jugar).setOnClickListener(v -> {
+            // Bienvenida :D
+            Toast.makeText(this,"Bienvenido a TeleGame, " + ((TextView)findViewById(R.id.input_nombre)).getText().toString()+"!", Toast.LENGTH_SHORT).show();
             abrirJuego();
         });
 
@@ -53,7 +55,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
     // Abrir la actividad del juego:
     public void abrirJuego() {
-        Intent intent = new Intent(MenuPrincipal.this, JuegoAhorcado.class);
+        Intent intent = new Intent(MenuPrincipalActivity.this, JuegoAhorcadoActivity.class);
         intent.putExtra("Nombre",((TextView)findViewById(R.id.input_nombre)).getText().toString());
         startActivity(intent);
     }
