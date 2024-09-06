@@ -1,10 +1,15 @@
 package com.example.lab2_20211755;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +26,15 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Animación:
+        //getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setAllowReturnTransitionOverlap(false);
+        //getWindow().setEnterTransition(new Explode().setDuration(2000).excludeTarget(R.id.image_antenna,true));
+        getWindow().setExitTransition(new Explode().setDuration(1000).excludeTarget(R.id.image_antenna,true));
+        getWindow().setReturnTransition(new Slide(Gravity.LEFT).setDuration(1200));
+
+        // Vista:
         setContentView(R.layout.activity_menu_principal);
 
         // Cambiar el titulo del AppBar:
@@ -47,8 +61,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         // Lógica del botón de Jugar:
         findViewById(R.id.button_jugar).setOnClickListener(v -> {
-            // Bienvenida :D
-            Toast.makeText(this,"Bienvenido a TeleGame, " + ((TextView)findViewById(R.id.input_nombre)).getText().toString()+"!", Toast.LENGTH_SHORT).show();
             abrirJuego();
         });
 
@@ -58,7 +70,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     public void abrirJuego() {
         Intent intent = new Intent(MenuPrincipalActivity.this, JuegoAhorcadoActivity.class);
         intent.putExtra("Nombre",((TextView)findViewById(R.id.input_nombre)).getText().toString());
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     // Crear el Context Menu:

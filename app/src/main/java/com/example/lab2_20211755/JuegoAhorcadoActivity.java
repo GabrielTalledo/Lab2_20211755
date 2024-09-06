@@ -1,11 +1,14 @@
 package com.example.lab2_20211755;
 
+import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -54,6 +59,15 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Animación:
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setAllowReturnTransitionOverlap(false);
+        getWindow().setEnterTransition(new Explode().setDuration(2000).excludeTarget(R.id.image_antenna,true));
+        getWindow().setExitTransition(new Slide(Gravity.RIGHT).setDuration(1200));
+        getWindow().setReturnTransition(new Slide(Gravity.LEFT).setDuration(1200));
+
+        // Vista:
         setContentView(R.layout.activity_juego);
 
         // Activar botón para atrás:
@@ -83,6 +97,8 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
         Intent intentPrincipal = getIntent();
         nombre = intentPrincipal.getStringExtra("Nombre");
         if(nombre != null){
+            // Bienvenida :D
+            Toast.makeText(this,"Bienvenido a TeleGame, " + nombre+"!", Toast.LENGTH_SHORT).show();
             empezarJuego();
         }
 
@@ -297,7 +313,6 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
             }
         }
-
     }
 
     // Se crea el App Bar:
@@ -332,7 +347,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                         intent.putStringArrayListExtra("letrasAcertadas",letrasAcertadas);
                         intent.putStringArrayListExtra("letrasPresionadas",letrasPresionadas);
                         intent.putExtra("mensajeJuego",((TextView)findViewById(R.id.text_mensaje_juego)).getText().toString());
-                        launcher.launch(intent);
+                        launcher.launch(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(JuegoAhorcadoActivity.this));
                         return true;
                     } else if (menuItem.getItemId() == R.id.go_juego_secreto) {
                         // Esto por motivos de práctica para saber más funciones del intent y los popups:
@@ -342,10 +357,8 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                     } else {
                         return false;
                     }
-
                 }
             });
-
             popupMenu.show();
             return true;
         }else {

@@ -3,7 +3,9 @@
     <style name="Base.Theme.LAB2_20211755" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/naranjita</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.LAB2_20211755" parent="Base.Theme.LAB2_20211755" />
+
 </resources>

@@ -1,8 +1,12 @@
 package com.example.lab2_20211755;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -23,6 +27,13 @@ public class EstadisticasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Animación:
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setEnterTransition(new Slide(Gravity.TOP).setDuration(1500));
+        getWindow().setExitTransition(new Slide(Gravity.BOTTOM).setDuration(1500));
+
+        //Vista:
         setContentView(R.layout.activity_estadisticas);
 
         // Activar botón para atrás:
