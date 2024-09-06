@@ -4,4 +4,7 @@
     <item
         android:id="@+id/go_estadisticas"
         android:title="Estadísticas" />
+    <item
+        android:id="@+id/go_juego_secreto"
+        android:title="Juego secreto :O" />
 </menu>

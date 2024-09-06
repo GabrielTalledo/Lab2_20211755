@@ -1,8 +1,10 @@
 package com.example.lab2_20211755;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -15,8 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -85,48 +88,40 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
     }
 
-    // Obtener la data guardada:
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restaurar estado guardado:
-        nombre = savedInstanceState.getString("nombre");
-        estadisticas = savedInstanceState.getString("estadisticas");
-        palabraElegida = savedInstanceState.getString("palabraElegida");
-        numJuego = savedInstanceState.getInt("numJuego");
-        numIntento = savedInstanceState.getInt("numIntento");
-        numCaracteres = savedInstanceState.getInt("numCaracteres");
-        numCaracteresEncontrados = savedInstanceState.getInt("numCaracteresEncontrados");
-        tiempoInicio = savedInstanceState.getLong("tiempoInicio");
-        juegoTerminado = savedInstanceState.getBoolean("juegoTerminado");
-        letrasAcertadas = savedInstanceState.getStringArrayList("letrasAcertadas");
-        letrasPresionadas = savedInstanceState.getStringArrayList("letrasPresionadas");
-        ((TextView)findViewById(R.id.text_mensaje_juego)).setText(savedInstanceState.getString("mensajeJuego"));
 
-        restaurarLetras(letrasAcertadas,palabraElegida);
-        desactivarBotones(letrasPresionadas);
-        restaurarStickman(numIntento,partesStickman);
-    }
+    // Launcher y manejar el callback:
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent resultIntent = result.getData();
+                    // Restaurar estado guardado:
+                    nombre = resultIntent.getStringExtra("nombre");
+                    estadisticas = resultIntent.getStringExtra("estadisticas");
+                    palabraElegida = resultIntent.getStringExtra("palabraElegida");
+                    numJuego = resultIntent.getIntExtra("numJuego",0);
+                    numIntento = resultIntent.getIntExtra("numIntento",0);
+                    numCaracteres = resultIntent.getIntExtra("numCaracteres",0);
+                    numCaracteresEncontrados = resultIntent.getIntExtra("numCaracteresEncontrados",0);
+                    tiempoInicio = resultIntent.getLongExtra("tiempoInicio",0);
+                    juegoTerminado = resultIntent.getBooleanExtra("juegoTerminado",false);
+                    letrasAcertadas = resultIntent.getStringArrayListExtra("letrasAcertadas");
+                    letrasPresionadas = resultIntent.getStringArrayListExtra("letrasPresionadas");
+                    ((TextView)findViewById(R.id.text_mensaje_juego)).setText(resultIntent.getStringExtra("mensajeJuego"));
 
+                    if(resultIntent.getStringExtra("NuevoJuego") != null){
+                        if(!juegoTerminado){
+                            estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Canceló";
+                        }
+                        empezarJuego();
+                    }else{
+                        restaurarLetras(letrasAcertadas,palabraElegida);
+                        desactivarBotones(letrasPresionadas);
+                        restaurarStickman(numIntento,partesStickman);
+                    }
+                }
+            }
+    );
 
-    // Manejar el estado guardado:
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("nombre",nombre);
-        outState.putString("estadisticas",estadisticas);
-        outState.putString("palabraElegida",palabraElegida);
-        Log.d("TAG", "AIUDA WEEE");
-        outState.putInt("numJuego",numJuego);
-        outState.putInt("numIntento",numIntento);
-        outState.putInt("numCaracteres",numCaracteres);
-        outState.putInt("numCaracteresEncontrados",numCaracteresEncontrados);
-        outState.putLong("tiempoInicio",tiempoInicio);
-        outState.putBoolean("juegoTerminado",juegoTerminado);
-        outState.putStringArrayList("letrasAcertadas",letrasAcertadas);
-        outState.putStringArrayList("letrasPresionadas",letrasPresionadas);
-        outState.putString("mensajeJuego",((TextView)findViewById(R.id.text_mensaje_juego)).getText().toString());
-    }
 
     // Función auxiliar para desactivar botones:
     public void desactivarBotones(ArrayList<String> letrasPresionadas){
@@ -138,10 +133,10 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
     // Función auxiliad para restaurar las letras del juego:
     public void restaurarLetras(ArrayList<String> letrasAcertadas,String palabraElegida){
+        LinearLayout layoutPalabra = findViewById(R.id.layout_palabra);
+        layoutPalabra.removeAllViews();
         for(int i=0;i<palabraElegida.length();i++){
             String letraStr = String.valueOf(palabraElegida.charAt(i));
-            LinearLayout layoutPalabra = findViewById(R.id.layout_palabra);
-            layoutPalabra.removeAllViews();
             TextView letra = new TextView(this); // Creamos el TextView
             // Le asignamos un ID
             letra.setId(View.generateViewId());
@@ -170,7 +165,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
     // Función auxiliar para restaurar al Stickman uwu:
     public void restaurarStickman(int numIntento, ImageView[] partesStickman){
         for (int i=0;i<partesStickman.length;i++) {
-            if(i<=numIntento){
+            if(i<=numIntento-1){
                 partesStickman[i].setVisibility(View.VISIBLE);
             }else {
                 partesStickman[i].setVisibility(View.INVISIBLE);
@@ -184,6 +179,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
         // Número de juego
         numJuego++;
+        getSupportActionBar().setTitle("TeleGame - Juego N° "+numJuego);
 
         // Elección de la palabra:
         palabraElegida = palabras[new Random().nextInt(palabras.length)];
@@ -326,16 +322,34 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                         Intent intent = new Intent(JuegoAhorcadoActivity.this, EstadisticasActivity.class);
                         intent.putExtra("nombre",nombre);
                         intent.putExtra("estadisticas",estadisticas);
+                        intent.putExtra("palabraElegida",palabraElegida);
+                        intent.putExtra("numJuego",numJuego);
+                        intent.putExtra("numIntento",numIntento);
+                        intent.putExtra("numCaracteres",numCaracteres);
+                        intent.putExtra("numCaracteresEncontrados",numCaracteresEncontrados);
+                        intent.putExtra("tiempoInicio",tiempoInicio);
+                        intent.putExtra("juegoTerminado",juegoTerminado);
+                        intent.putStringArrayListExtra("letrasAcertadas",letrasAcertadas);
+                        intent.putStringArrayListExtra("letrasPresionadas",letrasPresionadas);
+                        intent.putExtra("mensajeJuego",((TextView)findViewById(R.id.text_mensaje_juego)).getText().toString());
+                        launcher.launch(intent);
+                        return true;
+                    } else if (menuItem.getItemId() == R.id.go_juego_secreto) {
+                        // Esto por motivos de práctica para saber más funciones del intent y los popups:
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=xMHJGd3wwZk"));
                         startActivity(intent);
                         return true;
+                    } else {
+                        return false;
                     }
-                    return false;
+
                 }
             });
 
             popupMenu.show();
             return true;
+        }else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

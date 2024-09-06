@@ -17,7 +17,7 @@
             android:id="@+id/text_titulo_estadisticas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="15dp"
             android:text="Estadísticas"
             android:textAlignment="center"
@@ -37,7 +37,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="285dp"
             android:layout_height="431dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginVertical="20dp"
             app:cardBackgroundColor="#FFEFDA"
             app:cardElevation="4dp"
             app:cornerRadius="8dp"
