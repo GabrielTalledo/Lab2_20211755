@@ -33,7 +33,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
     public String nombre = "";
     public String estadisticas = "";
-    public final String[] palabras = {"FIBRA","REDES","ANTENA","PROPA","CLOUD","TELECO"};
+    public final String[] palabras = {"FIBRA","REDES","ANTENA","PROPA","CLOUD","TELECO","TRAFI","TELITO","GTICS","IWEB","SQL"};
     public String palabraElegida;
     public int numIntento;
     public int numJuego = 0;
@@ -57,7 +57,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_juego);
 
         // Activar botón para atrás:
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Cambiar el titulo del AppBar:
         getSupportActionBar().setTitle("TeleGame");

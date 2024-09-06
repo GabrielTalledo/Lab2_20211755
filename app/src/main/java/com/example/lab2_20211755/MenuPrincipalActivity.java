@@ -24,7 +24,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu_principal);
 
         // Cambiar el titulo del AppBar:
-        Objects.requireNonNull(getSupportActionBar()).setTitle("APPSIoT- Lab 2");
+
+        getSupportActionBar().setTitle("APPSIoT- Lab 2");
 
         // Registrar la pulsación para el Context Menu:
         registerForContextMenu(findViewById(R.id.titulo_principal));
