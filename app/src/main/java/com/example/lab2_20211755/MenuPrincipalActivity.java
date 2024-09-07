@@ -25,6 +25,12 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.Objects;
 
+// -----------------------
+// --- LABORATORIO N°2 ---
+// -----------------------
+
+// Código: 20211755
+
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     @Override
