@@ -29,11 +29,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.androidanimations.library.Techniques;
 
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
+import nl.dionsegijn.konfetti.core.models.Size;
 
 public class JuegoAhorcadoActivity extends AppCompatActivity {
 
@@ -94,6 +106,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
             YoYo.with(Techniques.Tada)
                     .duration(1000)
                     .playOn(botonJuegoNuevo);
+
             empezarJuego();
         });
 
@@ -234,7 +247,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
 
         // Seteo del texto:
         TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
-        mensajeJuego.setText("Empiece a jugar!");
+        mensajeJuego.setText("Empieza a jugar!");
 
 
         // Seteo del stickman:
@@ -293,6 +306,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
             }
             if(!letraEncontrada){
                 partesStickman[numIntento].setVisibility(View.VISIBLE);
+                // Se aumenta el número de intentos:
                 numIntento++;
                 // Se pierde:
                 if(numIntento == partesStickman.length){
@@ -302,6 +316,22 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                     tiempoJuego = (int) Math.floor((double) (System.currentTimeMillis() - tiempoInicio) /1000);
                     estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Perdió en " + tiempoJuego + "s";
                     juegoTerminado = true;
+                    // NO FESTEJAMOS :(
+                    List<Integer> colores = Arrays.asList(
+                            Color.RED
+                    );
+                    KonfettiView konfeti = findViewById(R.id.konfettiView);
+                    konfeti.start(
+                            new PartyFactory((new Emitter( 300, TimeUnit.MILLISECONDS).max(100)))
+                                    .spread(360)
+                                    .position(0,0.25,1,1)
+                                    .sizes(new Size(8, 50,10))
+                                    .shapes(Shape.Square.INSTANCE)
+                                    .colors(colores)
+                                    .timeToLive(2000)
+                                    .fadeOutEnabled(true)
+                                    .build()
+                    );
                 }else{
                     TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
                     if(numIntento == 5){
@@ -319,6 +349,22 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                     // Registramos las estadísticas:
                     estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Terminó en " + tiempoJuego + "s";
                     juegoTerminado = true;
+                    // FESTEJAMOS UWU:
+                    List<Integer> colores = Arrays.asList(
+                            0xFFAED581
+                    );
+                    KonfettiView konfeti = findViewById(R.id.konfettiView);
+                    konfeti.start(
+                            new PartyFactory((new Emitter( 400, TimeUnit.MILLISECONDS).max(400)))
+                                    .spread(360)
+                                    .position(0,0.25,1,1)
+                                    .sizes(new Size(8, 50,10))
+                                    .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE)
+                                    .colors(colores)
+                                    .timeToLive(2000)
+                                    .fadeOutEnabled(true)
+                                    .build()
+                    );
                 }else{
                     TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
                     mensajeJuego.setText("Correcto! Aun tienes " + (6 - numIntento) + " intentos.");

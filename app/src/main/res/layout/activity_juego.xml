@@ -576,4 +576,10 @@
             android:textAlignment="center" />
 
     </LinearLayout>
+
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="670dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

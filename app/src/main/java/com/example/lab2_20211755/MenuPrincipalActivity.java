@@ -56,9 +56,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 botonJugar.setEnabled(!charSequence.toString().isEmpty());
                 if(!charSequence.toString().isEmpty()){
-                    YoYo.with(Techniques.Wobble)
-                            .repeat(5)
-                            .duration(3000)
+                    YoYo.with(Techniques.Shake)
+                            .duration(2000)
                             .playOn(botonJugar);
                 }
 
@@ -68,15 +67,18 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Lógica del botón de Jugar:
         botonJugar.setOnClickListener(v -> {
             YoYo.with(Techniques.RubberBand)
-                    .duration(1000)
+                    .duration(1500)
                     .playOn(botonJugar);
             abrirJuego();
         });
+
+        // Antenita:
+        YoYo.with(Techniques.ZoomInUp)
+                .duration(3000)
+                .playOn(findViewById(R.id.image_antenna));
 
     }
 
