@@ -6,6 +6,8 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="Theme.LAB2_20211755" parent="Base.Theme.LAB2_20211755" />
+    <style name="Theme.LAB2_20211755" parent="Base.Theme.LAB2_20211755">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
 
 </resources>

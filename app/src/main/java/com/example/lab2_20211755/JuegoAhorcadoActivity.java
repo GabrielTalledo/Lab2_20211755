@@ -31,6 +31,9 @@ import androidx.core.app.ActivityOptionsCompat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.androidanimations.library.Techniques;
+
 
 public class JuegoAhorcadoActivity extends AppCompatActivity {
 
@@ -63,15 +66,11 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
         // Animación:
         getWindow().setAllowEnterTransitionOverlap(false);
         getWindow().setAllowReturnTransitionOverlap(false);
-        getWindow().setEnterTransition(new Explode().setDuration(2000).excludeTarget(R.id.image_antenna,true));
-        getWindow().setExitTransition(new Slide(Gravity.RIGHT).setDuration(1200));
-        getWindow().setReturnTransition(new Slide(Gravity.LEFT).setDuration(1200));
+        getWindow().setEnterTransition(new Explode().setDuration(1500));
+        getWindow().setExitTransition(new Slide(Gravity.END).setDuration(700));
 
         // Vista:
         setContentView(R.layout.activity_juego);
-
-        // Activar botón para atrás:
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Cambiar el titulo del AppBar:
         getSupportActionBar().setTitle("TeleGame");
@@ -85,11 +84,16 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
         partesStickman[5] = findViewById(R.id.pierna_derecha);
 
         // Activar botón de nuevo juego:
-        findViewById(R.id.button_nuevo_juego).setOnClickListener(l -> {
+        Button botonJuegoNuevo = findViewById(R.id.button_nuevo_juego);
+        botonJuegoNuevo.setOnClickListener(l -> {
             // Registramos a estadísticas:
             if(!juegoTerminado){
                 estadisticas = estadisticas + (numJuego==1?"":"\n") + "Juego " + numJuego + ": Canceló";
             }
+            // Volvemos a empezar:
+            YoYo.with(Techniques.Tada)
+                    .duration(1000)
+                    .playOn(botonJuegoNuevo);
             empezarJuego();
         });
 
@@ -133,6 +137,7 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                         restaurarLetras(letrasAcertadas,palabraElegida);
                         desactivarBotones(letrasPresionadas);
                         restaurarStickman(numIntento,partesStickman);
+                        restaurarLetras(letrasAcertadas,palabraElegida);
                     }
                 }
             }
@@ -267,6 +272,10 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
     public void clickLetra(View view) {
         if(!juegoTerminado){
             Button btnLetra = (Button) view;
+            // Pequeña animación:
+            YoYo.with(Techniques.ZoomIn)
+                    .duration(1000)
+                    .playOn(btnLetra);
             btnLetra.setEnabled(false);
             String letra = String.valueOf(btnLetra.getText());
             // Se guarda la letra presionada:
@@ -295,7 +304,11 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
                     juegoTerminado = true;
                 }else{
                     TextView mensajeJuego = findViewById(R.id.text_mensaje_juego);
-                    mensajeJuego.setText("Incorrecto! Te quedan " + (6 - numIntento) + " intentos.");
+                    if(numIntento == 5){
+                        mensajeJuego.setText("Incorrecto! Te queda solo 1 intento.");
+                    }else{
+                        mensajeJuego.setText("Incorrecto! Te quedan " + (6 - numIntento) + " intentos.");
+                    }
                 }
             }else{
                 if(numCaracteresEncontrados == numCaracteres){
@@ -362,7 +375,14 @@ public class JuegoAhorcadoActivity extends AppCompatActivity {
             popupMenu.show();
             return true;
         }else {
-            return super.onOptionsItemSelected(item);
+            if(item.getItemId() == android.R.id.home){
+                // GoodBye xD:
+                supportFinishAfterTransition();
+                return true;
+            }else{
+                return super.onOptionsItemSelected(item);
+            }
         }
     }
+
 }

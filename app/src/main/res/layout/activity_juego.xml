@@ -567,7 +567,7 @@
 
         <Button
             android:id="@+id/button_nuevo_juego"
-            android:layout_width="151dp"
+            android:layout_width="244dp"
             android:layout_height="59dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="10dp"

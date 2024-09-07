@@ -3,11 +3,13 @@ package com.example.lab2_20211755;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.Objects;
 
@@ -30,14 +35,11 @@ public class EstadisticasActivity extends AppCompatActivity {
 
         // Animación:
         getWindow().setAllowEnterTransitionOverlap(false);
-        getWindow().setEnterTransition(new Slide(Gravity.TOP).setDuration(1500));
-        getWindow().setExitTransition(new Slide(Gravity.BOTTOM).setDuration(1500));
+        getWindow().setEnterTransition(new Slide(Gravity.TOP).setDuration(700));
+        getWindow().setReturnTransition(new Slide(Gravity.BOTTOM).setDuration(700));
 
         //Vista:
         setContentView(R.layout.activity_estadisticas);
-
-        // Activar botón para atrás:
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Cambiar el titulo del AppBar:
         getSupportActionBar().setTitle("TeleGame");
@@ -56,25 +58,28 @@ public class EstadisticasActivity extends AppCompatActivity {
             textEstadisticas.setText(estadisticas);
         }
 
-        findViewById(R.id.button_nuevo_juego2).setOnClickListener(v -> {
+        Button botonJuegoNuevo = findViewById(R.id.button_nuevo_juego2);
+        botonJuegoNuevo.setOnClickListener(v -> {
+            YoYo.with(Techniques.Hinge)
+                    .duration(2000)
+                    .playOn(botonJuegoNuevo);
             Intent resultIntent = new Intent();
             resultIntent.putExtras(data);
             resultIntent.putExtra("NuevoJuego","Este texto no importa XD");
             setResult(RESULT_OK, resultIntent);
-            finish();
+            supportFinishAfterTransition();
         });
     }
 
     // Gestionamos el back button:
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        CharSequence xd = item.getTitle();
         if(item.getItemId() == android.R.id.home){
             // GoodBye xD:
             Intent resultIntent = new Intent();
             resultIntent.putExtras(data);
             setResult(RESULT_OK, resultIntent);
-            finish();
+            supportFinishAfterTransition();
             return true;
         }else{
             return false;
